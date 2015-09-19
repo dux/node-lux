@@ -1,0 +1,12 @@
+%html
+  %head
+    %title Naslov
+    %meta{ name:'robots', value:'index, follow' }
+
+  - 100.times do
+    %body.product
+      %h1 Dober dan
+      %ul
+        - for el in @products
+          %li{ id:"p-#{el[:id]}" }= el[:name]
+

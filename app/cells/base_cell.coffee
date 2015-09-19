@@ -1,9 +1,6 @@
 module.exports = class BaseCell
   constructor: (@lux) -> @
 
-  favicon: ->
-    @lux.res.writeHead 200, 'Content-Type': 'image/x-icon'
-
   root: ->
     """<body><h3>Hallo</h3><p>This is html index. Try</p><ul>
       <li><a href="/bla">/bla (not found)</a></li>

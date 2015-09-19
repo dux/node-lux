@@ -1,12 +1,16 @@
 BaseCell = load_module 'cells/base_cell'
 UserCell = load_module 'cells/user_cell'
 
+static_file = load_module 'lib/static_file'
+
 module.exports = ->
   console.log @path if @req.url != '/favicon.ico'
 
+  # deliver static files
+  return static_file.deliver(@, @path) if static_file.is_static_file(@path)
+
   base_cell = new BaseCell(@) # we pass instance of lux
 
-  return base_cell.favicon() if @req.url == '/favicon.ico'
   return base_cell.root() if @req.url == '/'
 
   path = @req.url.split('/')

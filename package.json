@@ -1,0 +1,26 @@
+{
+  "name": "node-lux",
+  "version": "1.0.0",
+  "description": "micro fw",
+  "main": "index.coffee",
+  "dependencies": {
+    "better-require": "0.0.3",
+    "haml": "^0.4.3",
+    "hamljs": "^0.6.2",
+    "jaml": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dux/node-lux.git"
+  },
+  "author": "Dino Reic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dux/node-lux/issues"
+  },
+  "homepage": "https://github.com/dux/node-lux#readme"
+}

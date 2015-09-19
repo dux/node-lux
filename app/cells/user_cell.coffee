@@ -1,5 +1,5 @@
 module.exports = class UserCell
-  constructor: (@lux) -> @
+  constructor: (@page) -> @
 
   respond: (path) ->
     return @index() unless path[0]
@@ -9,4 +9,4 @@ module.exports = class UserCell
     '<li>Dino</li><li>Igor</li>'
 
   show: (id) ->
-    "<h4>Dino: #{id}</li>"
+    @page.render('users/show', { id:id, name:'Dino' })
