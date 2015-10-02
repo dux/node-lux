@@ -35,12 +35,31 @@ module.exports = class Page
     @_error = desc
 
   end: ->
-    console.log @body
     if @_error
       @set_content_type('text')
       @status ||= 500
       @body = "Error: #{@_error}"
-    else if @body && ! @is_binary
+
+    if typeof(@body.then) == 'function'
+      @body.then (data) =>
+        console.log data
+        @body.done() if typeof(@body.done) == 'function'
+        @body = data
+        @end_finalize_1()
+    else
+      @end_finalize_1()
+  
+  end_finalize_1: ->
+    if @_pointer_data
+      Q.allSettled(@_pointer_data).then (data) =>
+        for i in [0..data.length-1]
+          @body = @body.replace("[:pointer:#{i}:]", data[i].value)
+        @end_finalize_2()
+    else
+      @end_finalize_2()
+
+  end_finalize_2: ->
+    if @body && ! @is_binary
       # convert to javascript if object recieved
       if typeof(@body) == 'object'
           @content_type ||= 'text/javascript'
@@ -65,6 +84,5 @@ module.exports = class Page
 
     @res.end(@body, binary)
 
-  render: (view, opts) ->
-    template_render(view, opts)
- 
+  render: (view, opts={}) ->
+    template_render(view, opts, @)

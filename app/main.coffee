@@ -18,6 +18,10 @@ module.exports = ->
   root = path.shift()
 
   return base_cell.api(path) if root == 'api'
+
   return new UserCell(@).respond(path) if root == 'users'
+  return new UserCell(@).gallery() if root == 'gallery'
+  return new UserCell(@).promise() if root == 'promise'
+  return new UserCell(@).inline_gallery() if root == 'inline_gallery'
 
   return base_cell.not_found()

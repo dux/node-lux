@@ -1,0 +1,6 @@
+%h3 Images
+
+%p http://imgur.com/gallery/J44eo.json
+
+- each el in images
+  %img{ src:'http://i.imgur.com/'+el.hash+'.png', style:"width:400px; border:2px solid #aaa; margin:10px;" }

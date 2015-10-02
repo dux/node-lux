@@ -1,4 +1,8 @@
 module.exports = class BaseCell
+  
+  # tu definirati master layout
+
+
   constructor: (@lux) -> @
 
   root: ->
@@ -7,6 +11,9 @@ module.exports = class BaseCell
       <li><a href="/api/users">/api/users (generic api)</a></li>
       <li><a href="/users">/users (user list)</a></li>
       <li><a href="/users/4">/users/4 (single user)</a></li>
+      <li><a href="/gallery">gallery</a></li>
+      <li><a href="/inline_gallery">inline_gallery</a></li>
+      <li><a href="/promise">promise</a></li>
     </ul></body> """
 
   api: (path)->

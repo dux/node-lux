@@ -6,8 +6,9 @@ Haml = require 'hamljs'
 fs   = require('fs')
 
 scope_templates = {}
+scope_widgets = {}
 
-module.exports = (view, locals) ->
+module.exports = (view, locals, scope) ->
   console.log "render: #{view}"
 
   scope_templates = {} unless is_on_production
@@ -22,8 +23,23 @@ module.exports = (view, locals) ->
     scope_templates[view] = Haml.compile(@data)
 
   delete locals._keys
-  scope_templates[view](locals, this);
 
+  locals._ = {}
+  locals._.widget = (widget_name, arg1, arg2, agr3) ->
+    try
+      scope_widgets[widget_name] ||= load_module "widgets/#{widget_name}"
+      body = scope_widgets[widget_name].call(scope, arg1, arg2, agr3)
+    catch e
+      body = "Widget [#{widget_name}] render error: #{e}"
+
+    if typeof(body.then) == 'function'
+      scope._pointer_data  ||= []
+      scope._pointer_data.push body
+      "[:pointer:#{scope._pointer_data.length - 1}:]"
+    else
+      return body
+
+  scope_templates[view](locals, @);
 
 # require 'jaml'
 
