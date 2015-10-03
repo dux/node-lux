@@ -1,3 +1,5 @@
+_Promise = require 'promise'
+
 extra = {}
 
 extra.has = (el, key) -> el.indexOf(key) > -1
@@ -30,5 +32,11 @@ extra.flatten = (array) ->
   flattened
 
 extra.last = (list) -> if list.length then list[list.length - 1] else undefined
+
+extra.promise =
+  create: (data) -> new _Promise
+  all: (list) -> new _Promise.all(list)
+  start: (resolve, reject) -> new _Promise(resolve, reject)
+  resolve: (data) -> _Promise.resolve(data)
 
 module.exports = extra;

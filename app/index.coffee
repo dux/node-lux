@@ -4,7 +4,6 @@ global.is_on_production = process.env.NODE_ENV == 'production'
 global.load_module      = (name) -> require "./#{name}"
 global.APP_ROOT         = require('path').dirname(require.main.filename).replace('/app','');
 global.$$               = require './lib/base_class_extensions'
-global.Q                = require 'q'
 
 require('better-require')() if is_on_production
 

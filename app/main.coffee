@@ -4,24 +4,16 @@ UserCell = load_module 'cells/user_cell'
 static_file = load_module 'lib/static_file'
 
 module.exports = ->
-  console.log @path if @req.url != '/favicon.ico'
-
   # deliver static files
-  return static_file.deliver(@, @path) if static_file.is_static_file(@path)
+  return static_file.deliver(@, @url.pathname) if static_file.is_static_file(@url.pathname)
 
   base_cell = new BaseCell(@) # we pass instance of lux
+  return base_cell.render('root') unless @root_path
 
-  return base_cell.root() if @req.url == '/'
-
-  path = @req.url.split('/')
-  path.shift()
-  root = path.shift()
-
-  return base_cell.api(path) if root == 'api'
-
-  return new UserCell(@).respond(path) if root == 'users'
-  return new UserCell(@).gallery() if root == 'gallery'
-  return new UserCell(@).promise() if root == 'promise'
-  return new UserCell(@).inline_gallery() if root == 'inline_gallery'
+  return base_cell.api(@path) if @root_path == 'api'
+  return new UserCell(@).respond(@path) if @root_path == 'users'
+  return new UserCell(@).render('gallery') if @root_path == 'gallery'
+  return new UserCell(@).render('promise') if @root_path == 'promise'
+  return new UserCell(@).render('inline_gallery') if @root_path == 'inline_gallery'
 
   return base_cell.not_found()

@@ -6,10 +6,9 @@
   "dependencies": {
     "axios": "^0.7.0",
     "better-require": "0.0.3",
-    "haml": "^0.4.3",
     "hamljs": "^0.6.2",
     "jaml": "^0.1.0",
-    "q": "^1.4.1"
+    "promise": "^7.0.4",
   },
   "devDependencies": {},
   "scripts": {

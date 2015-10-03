@@ -4,27 +4,29 @@
 
 Haml = require 'hamljs'
 fs   = require('fs')
+helpers = load_module 'lib/helpers'
 
-scope_templates = {}
+page_templates = {}
 scope_widgets = {}
 
 module.exports = (view, locals, scope) ->
   console.log "render: #{view}"
 
-  scope_templates = {} unless is_on_production
+  page_templates = {} unless is_on_production
 
-  unless scope_templates[view]
+  unless page_templates[view]
     template = "#{APP_ROOT}/app/views/#{view}.haml"
     if fs.existsSync(template)
       @data = fs.readFileSync(template, 'utf8');
     else
       @data = '.lux-error Error: Template #{view} not found'
 
-    scope_templates[view] = Haml.compile(@data)
+    page_templates[view] = Haml.compile(@data)
 
   delete locals._keys
 
-  locals._ = {}
+  locals._ = helpers
+  locals._.page = scope
   locals._.widget = (widget_name, arg1, arg2, agr3) ->
     try
       scope_widgets[widget_name] ||= load_module "widgets/#{widget_name}"
@@ -32,14 +34,9 @@ module.exports = (view, locals, scope) ->
     catch e
       body = "Widget [#{widget_name}] render error: #{e}"
 
-    if typeof(body.then) == 'function'
-      scope._pointer_data  ||= []
-      scope._pointer_data.push body
-      "[:pointer:#{scope._pointer_data.length - 1}:]"
-    else
-      return body
+    scope.pointerize_template_if_promise(body)
 
-  scope_templates[view](locals, @);
+  page_templates[view](locals, @);
 
 # require 'jaml'
 

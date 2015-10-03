@@ -1,11 +1,10 @@
 axios = require 'axios'
 
-module.exports = class UserCell
-  constructor: (@page) -> @
+module.exports = class UserCell extends load_module('cells/lux_cell')
 
   respond: (path) ->
-    return @index() unless path[0]
-    return @show(path[0])
+    return @render('index') unless path[0]
+    return @render('show', path[0])
 
   index: ->
     '<li>Dino</li><li>Igor</li>'
@@ -19,8 +18,8 @@ module.exports = class UserCell
       @page.render('users/gallery', res.data.data.image.album_images)
 
   promise: ->
-    Q.fcall ->
-      return 'abc'
+    $$.promise.start (res) ->
+      res 'abc'
 
   inline_gallery: ->
     @page.render('users/inline_gallery')

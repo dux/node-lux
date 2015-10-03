@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %title Test
+    %link{ rel:'stylesheet', href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' }
+    %script{ src:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js' }
+  %body
+
+  %nav.navbar.navbar-default
+    .container
+      %ul.nav.navbar-nav
+        != _.main_menu(_.page.root_path)
+
+      %ul.nav.navbar-nav.navbar-right
+        != _.user_menu()
+
+  .container
+    != page_body
+
+

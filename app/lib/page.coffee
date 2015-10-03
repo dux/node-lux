@@ -6,7 +6,8 @@ template_render = load_module 'lib/template'
 module.exports = class Page
   constructor: (@req, @res) ->
     @url = Url.parse(@req.url)
-    @path = @url.pathname
+    @path = @url.pathname.split('/'); @path.shift()
+    @root_path = @path.shift()
     @qs = querystring.parse @url.query
     @content_type = ''
     @headers = {}
@@ -42,28 +43,27 @@ module.exports = class Page
 
     if typeof(@body.then) == 'function'
       @body.then (data) =>
-        console.log data
-        @body.done() if typeof(@body.done) == 'function'
+        # @body.done() if typeof(@body.done) == 'function'
         @body = data
-        @end_finalize_1()
+        @end_finalize_promises()
     else
-      @end_finalize_1()
+      @end_finalize_promises()
   
-  end_finalize_1: ->
+  end_finalize_promises: ->
     if @_pointer_data
-      Q.allSettled(@_pointer_data).then (data) =>
+      $$.promise.all(@_pointer_data).then (data) =>
         for i in [0..data.length-1]
-          @body = @body.replace("[:pointer:#{i}:]", data[i].value)
-        @end_finalize_2()
+          @body = @body.replace("[:pointer:#{i}:]", data[i])
+        @end_finalize_finish()
     else
-      @end_finalize_2()
+      @end_finalize_finish()
 
-  end_finalize_2: ->
+  end_finalize_finish: ->
     if @body && ! @is_binary
       # convert to javascript if object recieved
       if typeof(@body) == 'object'
-          @content_type ||= 'text/javascript'
-          @body = JSON.stringify(@body, null, 2)
+        @content_type ||= 'text/javascript'
+        @body = JSON.stringify(@body, null, 2)
       else
         @body = String(@body).replace(/^\s+/,'')
 
@@ -86,3 +86,11 @@ module.exports = class Page
 
   render: (view, opts={}) ->
     template_render(view, opts, @)
+
+  pointerize_template_if_promise: (data) ->
+    return data unless typeof(data.then) == 'function'
+
+    @_pointer_data  ||= []
+    @_pointer_data.push(data)
+    
+    "[:pointer:#{@_pointer_data.length - 1}:]"

@@ -1,10 +1,5 @@
-module.exports = class BaseCell
+module.exports = class BaseCell extends load_module('cells/lux_cell')
   
-  # tu definirati master layout
-
-
-  constructor: (@lux) -> @
-
   root: ->
     """<body><h3>Hallo</h3><p>This is html index. Try</p><ul>
       <li><a href="/bla">/bla (not found)</a></li>
@@ -23,3 +18,4 @@ module.exports = class BaseCell
 
   not_found: ->
     'Page not found'
+
