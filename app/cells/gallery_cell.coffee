@@ -1,6 +1,6 @@
 axios = require 'axios'
 
-module.exports = class UserCell extends load_module('cells/app_cell')
+module.exports = class GalleryCell extends load_module('cells/app_cell')
 
   index: ->
     @page.render('gallery/index')

@@ -1,6 +1,7 @@
 Url         = require('url')
 querystring = require('querystring')
 
+asset           = load_module 'lux/static_file'
 template_render = load_module 'lux/template'
 static_file     = load_module 'lux/static_file'
 cell_objects    = {}
@@ -21,7 +22,13 @@ module.exports = class Page
     type = 'text/javascript' if type == 'js'
     @content_type = type
 
+  deliver_if_asset: ->
+    if asset.is_static_file(@url.pathname)
+      @body = asset.deliver(@, @url.pathname) 
+
   exec: (func)->
+    return if @body
+
     if func
       @body = func.call(@)
     else
@@ -56,11 +63,11 @@ module.exports = class Page
       $.promise.all(@_pointer_data).then (data) =>
         for i in [0..data.length-1]
           @body = @body.replace("[:pointer:#{i}:]", data[i])
-        @end_finalize_finish()
+        @end_deliver()
     else
-      @end_finalize_finish()
+      @end_deliver()
 
-  end_finalize_finish: ->
+  end_deliver: ->
     if @body && ! @is_binary
       # convert to javascript if object recieved
       if typeof(@body) == 'object'
