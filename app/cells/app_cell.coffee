@@ -19,7 +19,7 @@ module.exports = class AppCell
 
     body = @page.pointerize_template_if_promise(body)
 
-    @page.render(@template, $body:body)
+    @page.render(@template, BODY:body)
 
   error: (desc) ->
     """<div class="alert alert-danger">#{desc}</div>"""

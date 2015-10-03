@@ -3,5 +3,5 @@
 %p Users are defined in object inside models/user
 
 %ul
-  - each user in users
-    %li!= $h.link_to(user.name(), user.path())
+  - for user in @users
+    %li= @H.link_to user.name(), user.path()

@@ -18,7 +18,7 @@
 
 # console.log Jaml.render('simple', { title:'Krasne' })
 
-Haml = require 'hamljs'
+Haml = require 'haml-coffee' # https://github.com/netzpirat/haml-coffee
 fs   = require('fs')
 
 helpers = load_module 'lib/helpers'
@@ -38,13 +38,13 @@ module.exports = (view, locals, scope) ->
     else
       @data = '.lux-error Error: Template #{view} not found'
 
-    page_templates[view] = Haml.compile(@data)
+    page_templates[view] = Haml.compile(@data, cleanValue: false, escapeHtml: false, uglify:true )
 
-  delete locals._keys
+  locals ||= {}
+  locals.H      = helpers
+  locals.PAGE   = scope
 
-  locals.$h      = helpers
-  locals.$page   = scope
-  locals.$widget = (widget_name, arg1, arg2, agr3) ->
+  locals.H.widget = (widget_name, arg1, arg2, agr3) ->
     try
       scope_widgets[widget_name] ||= load_module "widgets/#{widget_name}"
       body = scope_widgets[widget_name].call(scope, arg1, arg2, agr3)
@@ -54,7 +54,7 @@ module.exports = (view, locals, scope) ->
     scope.pointerize_template_if_promise(body)
 
   try
-    page_templates[view](locals, @)
+    page_templates[view](locals, locals)
   catch e
     "<div class='alert alert-danger'>Template <b>#{view}</b> render error<br/><br/>#{e}</div>"
 
