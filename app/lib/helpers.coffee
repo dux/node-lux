@@ -1,4 +1,7 @@
 module.exports = 
+  link_to: (name, path) ->
+    """<a href="#{path}">#{name}</a> """
+
   main_menu: (root) ->
     menu = []
     menu.push ['/','Home']
@@ -8,7 +11,7 @@ module.exports =
     
     menu = menu.map (el) ->
       klass = ''
-      klass = ' class="active"' if el[0] == "/#{root}"
+      klass = ' class="active"' if el[0].pluralize == "/#{root.pluralize}"
       """<li#{klass}><a href="#{el[0]}">#{el[1]}</a></li>"""
     
     menu.join('')

@@ -1,11 +1,15 @@
-module.exports = class LuxCell
+module.exports = class AppCell
   
   # tu definirati master layout
   constructor: (@page) -> 
     @template = 'layout'
     @
 
-  render: ->
+  respond: () ->
+    return @layout('index') unless @page.path[0]
+    return @layout('show', @page.path[0])
+
+  layout: ->
     args = Array.prototype.slice.call(arguments)
     method = args.shift()
 
@@ -15,5 +19,8 @@ module.exports = class LuxCell
 
     body = @page.pointerize_template_if_promise(body)
 
-    @page.render(@template, page_body:body)
+    @page.render(@template, $body:body)
+
+  error: (desc) ->
+    """<div class="alert alert-danger">#{desc}</div>"""
 

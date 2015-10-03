@@ -9,12 +9,12 @@
   %nav.navbar.navbar-default
     .container
       %ul.nav.navbar-nav
-        != _.main_menu(_.page.root_path)
+        != $h.main_menu($page.root_path)
 
       %ul.nav.navbar-nav.navbar-right
-        != _.user_menu()
+        != $h.user_menu()
 
   .container
-    != page_body
+    != $body
 
 

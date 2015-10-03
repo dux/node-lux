@@ -1,4 +1,4 @@
-module.exports = class BaseCell extends load_module('cells/lux_cell')
+module.exports = class BaseCell extends load_module('cells/app_cell')
   
   root: ->
     """<body><h3>Hallo</h3><p>This is html index. Try</p><ul>

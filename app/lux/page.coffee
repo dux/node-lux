@@ -1,7 +1,9 @@
 Url         = require('url')
 querystring = require('querystring')
 
-template_render = load_module 'lib/template'
+template_render = load_module 'lux/template'
+static_file     = load_module 'lux/static_file'
+cell_objects    = {}
 
 module.exports = class Page
   constructor: (@req, @res) ->
@@ -51,7 +53,7 @@ module.exports = class Page
   
   end_finalize_promises: ->
     if @_pointer_data
-      $$.promise.all(@_pointer_data).then (data) =>
+      $.promise.all(@_pointer_data).then (data) =>
         for i in [0..data.length-1]
           @body = @body.replace("[:pointer:#{i}:]", data[i])
         @end_finalize_finish()
@@ -84,8 +86,10 @@ module.exports = class Page
 
     @res.end(@body, binary)
 
+
   render: (view, opts={}) ->
     template_render(view, opts, @)
+
 
   pointerize_template_if_promise: (data) ->
     return data unless typeof(data.then) == 'function'
@@ -94,3 +98,9 @@ module.exports = class Page
     @_pointer_data.push(data)
     
     "[:pointer:#{@_pointer_data.length - 1}:]"
+
+
+  cell:(name) ->
+    cell_objects[name] ||= load_module "cells/#{name}_cell"
+    new cell_objects[name](@)
+

@@ -1,0 +1,13 @@
+%h3 Single user show
+
+%h4{ style:"color:red" } User #{user.name()}
+
+%img{ src:user.avatar_url(), style:'float:right; width:150px;' }
+
+%dl
+  %dt ID
+  %dd= user.data.id
+
+  %dt Email
+  %dd= user.data.email
+

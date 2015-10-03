@@ -1,10 +1,10 @@
 fs   = require('fs')
 
 module.exports = 
-  ext: (file) -> $$.last(file.split('.')).toLowerCase()
+  ext: (file) -> file.split('.').last().toLowerCase()
 
   is_static_file: (file) ->
-    return $$.has(['ico','png','jpg','jpeg','gif','txt'], @ext(file)) && fs.existsSync("#{APP_ROOT}/public#{file}")
+    return ['ico','png','jpg','jpeg','gif','txt'].contains(@ext(file)) && fs.existsSync("#{APP_ROOT}/public#{file}")
 
   deliver: (page, file) ->
     ext = @ext(file)

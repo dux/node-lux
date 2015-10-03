@@ -1,25 +1,13 @@
-axios = require 'axios'
+Users  = load_module 'models/user'
 
-module.exports = class UserCell extends load_module('cells/lux_cell')
-
-  respond: (path) ->
-    return @render('index') unless path[0]
-    return @render('show', path[0])
+module.exports = class UserCell extends load_module('cells/app_cell')
 
   index: ->
-    '<li>Dino</li><li>Igor</li>'
+    @page.render 'user/index', { users:Users.all() }
 
   show: (id) ->
-    @page.render('users/show', { id:id, name:'Dino' })
+    user = Users.get(id)
 
-  gallery: ->
-    axios.get('http://imgur.com/gallery/J44eo.json').then (res) =>
-      console.log 'adasdasd'
-      @page.render('users/gallery', res.data.data.image.album_images)
+    return @error "User with id #{id} is not found" unless user
 
-  promise: ->
-    $$.promise.start (res) ->
-      res 'abc'
-
-  inline_gallery: ->
-    @page.render('users/inline_gallery')
+    @page.render('user/show', { user:user })
