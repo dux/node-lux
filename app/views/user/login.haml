@@ -1,0 +1,20 @@
+.row
+  .col-md-3
+  .col-md-6
+    %h2 Login
+
+    %hr
+
+    %form.well
+      %label Email
+      %input.form-control{ :type=>'text' }
+      %hr
+      %label Password
+      %input.form-control{ :type=>'password' }
+      %br
+      %button.btn.btn-primary Login
+
+    %br
+
+    %p.alert.alert-info Login demo. Use user email for email and pass
+    %p.alert.alert-info Using ajax to /api/user/login

@@ -3,9 +3,9 @@ axios = require 'axios'
 module.exports = class GalleryCell extends load_module('cells/app_cell')
 
   index: ->
-    @page.render('gallery/index')
+    @render()
 
   show: (id) ->
     axios.get("http://imgur.com/gallery/#{id}.json").then (res) =>
-      @page.render('gallery/show', res.data.data.image.album_images)
+      @render res.data.data.image.album_images
 

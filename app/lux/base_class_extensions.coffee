@@ -33,7 +33,7 @@ Object.defineProperty Array.prototype, 'flatten', value: (data) ->
       flattened.push element
   flattened
 
-module.exports =
+module.exports = $ = 
   # delete propery and return it
   del: (obj, key) ->
     val =  obj[key]
@@ -62,3 +62,28 @@ module.exports =
     all: (list) -> new Promise.all(list)
     start: (resolve, reject) -> new Promise(resolve, reject)
     resolve: (data) -> Promise.resolve(data)
+
+  # define: (object, name, type_or_func, opts={}) ->
+  #   opts.configurable = true
+  #   opts.enumarable = true
+
+  #   @__values ||= {}
+
+  #   # if typeof(type_or_func) == 'function'
+  #   #    set_type_or_func = (val) => 
+  #   #     @__values[name] = type_or_func(val)
+  #   # else
+  #   #   opts.enumarable = true
+  #   #   set_type_or_func = (val) => 
+  #   #     @__values[name] = val
+
+  #   @_val = 1
+
+  #   set_value = (val) => @_val = val
+  #   get_value = => @_val
+
+  #   Object.defineProperty object, name, 
+  #     enumarable: true
+  #     get: get_value
+  #     set: set_value
+        

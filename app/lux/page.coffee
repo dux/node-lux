@@ -4,6 +4,7 @@ querystring = require('querystring')
 asset           = load_module 'lux/static_file'
 template_render = load_module 'lux/template'
 static_file     = load_module 'lux/static_file'
+session         = load_module 'lux/session'
 cell_objects    = {}
 
 module.exports = class Page
@@ -14,7 +15,11 @@ module.exports = class Page
     @qs = querystring.parse @url.query
     @content_type = ''
     @headers = {}
+    @session = {}
     @status
+
+    session.init.call @
+
     @
 
   set_content_type: (type) -> 
@@ -86,6 +91,8 @@ module.exports = class Page
     @status ||= 200
 
     @header('Content-length', @body.length)
+    
+    session.save.call @
 
     @res.writeHead(@status, @headers);
 

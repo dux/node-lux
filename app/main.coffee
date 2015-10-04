@@ -4,12 +4,11 @@ module.exports = ->
 
   root = @root_path.singularize
 
-  if root == ''
-    @cell('base').layout('root')
+  return @cell('base').layout('root')  if root == ''
+  return @cell('api').respond()        if root == 'api'
+  return @cell('gallery').respond()    if root == 'gallery'
+  return @cell('user').layout('login') if root == 'login'
+  return @cell('user').respond()       if root == 'user'
 
-  else if ['user', 'gallery'].contains(root)
-    @cell(root).respond()
-
-  else
-    @cell('base').not_found()
+  @cell('base').not_found()
 
