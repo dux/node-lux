@@ -4,6 +4,7 @@ User = load_module 'models/user'
 
 module.exports = ->
 
+  # load user from session before routing
   if @session.id
     @locals.USER = User.get(@session.id)
   
