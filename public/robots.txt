@@ -1,12 +1,4 @@
 User-agent: *
-Allow: /
-Disallow: /ajax/*
-Disallow: /retailer/index/hiw
-Disallow: /clickout/*
-Disallow: /gotoshop/*
-Disallow: */show/*
-Disallow: /v/*
 
-Host: www.cuponation.de
+Disallow: /*
 
-Sitemap: http://www.cuponation.de/sitemap
