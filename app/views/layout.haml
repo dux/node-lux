@@ -3,6 +3,7 @@
   %head
     %title Test
     %link{ rel:'stylesheet', href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' }
+    %script{ src:'https://code.jquery.com/jquery-2.1.4.min.js' }
     %script{ src:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js' }
   %body
 
@@ -12,7 +13,7 @@
         = @H.main_menu(@PAGE.root_path)
 
       %ul.nav.navbar-nav.navbar-right
-        = @H.user_menu()
+        = @H.user_menu(@USER)
 
   .container
     = @BODY

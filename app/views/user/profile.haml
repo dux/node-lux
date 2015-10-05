@@ -1,0 +1,6 @@
+%h2= @USER.data.email
+
+%a.btn.btn-danger{ :style=>"float:right;", href:'/user/bye' } Log off
+
+%img{ src:@USER.avatar_url() }
+

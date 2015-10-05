@@ -15,7 +15,5 @@ module.exports =
         @session = {}
 
   save: ->
-    console.log @session
-
     s = crypt.simple.encrypt JSON.stringify(@session)
     @header('Set-Cookie',"lux_node=#{s};path=/;max-age=#{3600*24*31}")

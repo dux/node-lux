@@ -26,8 +26,20 @@ helpers = load_module 'lib/helpers'
 page_templates = {}
 scope_widgets = {}
 
-module.exports = (view, locals, scope) ->
-  console.log "render: #{view}"
+# (layout, view, locals, scope)
+# or 
+# (view, locals, scope)
+burnTemplate = ->
+  args = Array.prototype.slice.call(arguments)
+  if typeof(args[1]) == 'string'
+    [layout, view, locals, scope] = args
+  else
+    [view, locals, scope] = args
+
+  unless typeof(view) == 'string'
+    console.log(error = 'FATAL TEMPLATE RENDER ERROR: expected view as a string, got object')
+    console.log view
+    return error
 
   page_templates = {} unless is_on_production
 
@@ -40,11 +52,19 @@ module.exports = (view, locals, scope) ->
 
     page_templates[view] = Haml.compile(@data, cleanValue: false, escapeHtml: false, uglify:true )
 
-  locals ||= {}
-  locals.H      = helpers
-  locals.PAGE   = scope
+  template_locals      = {}
+  template_locals.H    = helpers
+  template_locals.PAGE = scope
 
-  locals.H.widget = (widget_name, arg1, arg2, agr3) ->
+  locals ||= {}
+
+  for k,v of locals
+    template_locals[k] = v
+
+  for k,v of scope.locals
+    template_locals[k] = v
+
+  template_locals.H.widget = (widget_name, arg1, arg2, agr3) ->
     try
       scope_widgets[widget_name] ||= load_module "widgets/#{widget_name}"
       body = scope_widgets[widget_name].call(scope, arg1, arg2, agr3)
@@ -54,7 +74,14 @@ module.exports = (view, locals, scope) ->
     scope.pointerize_template_if_promise(body)
 
   try
-    page_templates[view](locals, locals)
+    result = page_templates[view](template_locals)
   catch e
-    "<div class='alert alert-danger'>Template <b>#{view}</b> render error<br/><br/>#{e}</div>"
+    result = "<div class='alert alert-danger'>Template <b>#{view}</b> render error<br/><br/>#{e}</div>"
 
+  return result unless layout
+
+  locals.BODY = result
+
+  burnTemplate(layout, locals, scope)
+
+module.exports = burnTemplate

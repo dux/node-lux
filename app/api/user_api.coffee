@@ -1,9 +1,6 @@
 Users  = load_module 'models/user'
 
 module.exports = 
-  $load: (id) ->
-    1
-
   login: (params) ->
     throw 'Email is not provided' unless params.email
 

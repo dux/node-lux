@@ -14,6 +14,7 @@ module.exports = class Page
     @root_path = @path.shift()
     @qs = querystring.parse @url.query
     @content_type = ''
+    @locals = {}
     @headers = {}
     @session = {}
     @status
@@ -39,7 +40,9 @@ module.exports = class Page
     else
       @body = 'Error: function not provided'
 
-  redirect: (url, @status=300) ->
+  redirect: (url, @status=307) ->
+    url = "http://#{@req.headers.host}#{url}" unless url.contains(':')
+    console.log(url)
     @header('Location', url)
 
   header: (key, val) ->
@@ -76,7 +79,7 @@ module.exports = class Page
     if @body && ! @is_binary
       # convert to javascript if object recieved
       if typeof(@body) == 'object'
-        @content_type ||= 'text/javascript'
+        @content_type ||= 'application/json'
         @body = JSON.stringify(@body, null, 2)
       else
         @body = String(@body).replace(/^\s+/,'')
@@ -100,10 +103,12 @@ module.exports = class Page
 
     @res.end(@body, binary)
 
-
-  render: (view, opts={}) ->
-    template_render(view, opts, @)
-
+  # (layout, view, opts) or (view, opts)
+  render: (layout, view, opts) ->
+    if typeof(view) == 'string'
+      template_render(layout, view, opts, @)
+    else
+      template_render(layout, view, @)
 
   pointerize_template_if_promise: (data) ->
     return data unless typeof(data.then) == 'function'

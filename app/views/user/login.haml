@@ -1,3 +1,14 @@
+:javascript
+  do_login = function() {
+    $.get('/api/user/login', { email:$('#email').val() }, function(msg){
+      if (msg.error) { alert(msg.error) }
+      else {
+        alert('Login ok!');
+        location.href = '/';
+      }
+    });
+  }
+
 .row
   .col-md-3
   .col-md-6
@@ -5,12 +16,12 @@
 
     %hr
 
-    %form.well
+    %form.well{ onsubmit:"do_login(); return false;" }
       %label Email
-      %input.form-control{ :type=>'text' }
+      %input#email.form-control{ :type=>'text' }
       %hr
       %label Password
-      %input.form-control{ :type=>'password' }
+      %input#pass.form-control{ :type=>'password' }
       %br
       %button.btn.btn-primary Login
 

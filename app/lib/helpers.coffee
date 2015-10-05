@@ -16,9 +16,12 @@ module.exports =
     
     menu.join('')
 
-  user_menu: ->
+  user_menu: (user) ->
     menu = []
-    menu.push ['/login','Login']
+    if user
+      menu.push ['/user/profile', user.data.email]
+    else
+      menu.push ['/login','Login']
     
     menu = menu.map (el) ->
       klass = ''

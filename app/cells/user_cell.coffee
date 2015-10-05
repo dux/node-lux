@@ -12,3 +12,11 @@ module.exports = class UserCell extends load_module('cells/app_cell')
   
   login: ->
     @render()
+
+  profile: ->
+    @render_with_layout('user/profile')
+
+  bye: ->
+    delete @page.session.id
+    @page.redirect('/')
+    return 'Redirecting to root...'

@@ -1,7 +1,12 @@
 # routes resolve and master controller
 
+User = load_module 'models/user'
+
 module.exports = ->
 
+  if @session.id
+    @locals.USER = User.get(@session.id)
+  
   root = @root_path.singularize
 
   return @cell('base').layout('root')  if root == ''
