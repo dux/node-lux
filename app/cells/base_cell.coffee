@@ -1,3 +1,27 @@
+# https://github.com/balderdashy/waterline
+# ovo probat
+
+Sequelize = require('sequelize');
+sequelize = new Sequelize 'stash_buckets_new', 'dux', '!Netlife',
+  host: 'localhost',
+  dialect: 'postgres',
+  pool:
+    max: 5,
+    min: 0,
+    idle: 10000
+
+LinkModel = sequelize.define 'links',
+  name: { type: Sequelize.STRING  },
+  url: { type: Sequelize.STRING }
+,
+  freezeTableName: true
+
+s = $.speed ->
+  LinkModel.findAll(attributes:['id', 'name', 'url']).then (links) ->
+    s();
+    # for el in links
+    #   console.log el.name
+
 module.exports = class BaseCell extends load_module('cells/app_cell')
   
   root: ->
@@ -18,4 +42,7 @@ module.exports = class BaseCell extends load_module('cells/app_cell')
 
   not_found: ->
     'Page not found'
+
+  db: ->
+    'asdas'
 

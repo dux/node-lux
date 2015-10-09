@@ -63,6 +63,11 @@ module.exports = $ =
     start: (resolve, reject) -> new Promise(resolve, reject)
     resolve: (data) -> Promise.resolve(data)
 
+  speed: (func) ->
+    t = new Date().getTime()
+    func()
+    -> console.log 'Speed: '+parseInt(new Date().getTime() - t)
+
   # define: (object, name, type_or_func, opts={}) ->
   #   opts.configurable = true
   #   opts.enumarable = true

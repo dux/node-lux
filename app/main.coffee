@@ -11,6 +11,7 @@ module.exports = ->
   root = @root_path.singularize
 
   return @cell('base').layout('root')  if root == ''
+  return @cell('base').layout('db')    if root == 'db'
   return @cell('api').respond()        if root == 'api'
   return @cell('gallery').respond()    if root == 'gallery'
   return @cell('user').layout('login') if root == 'login'

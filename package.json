@@ -9,6 +9,8 @@
     "haml-coffee": "^1.14.1",
     "i": "^0.3.3",
     "jaml": "^0.1.0",
+    "pg": "^4.4.2",
+    "pg-hstore": "^2.3.2",
     "promise": "^7.0.4"
   },
   "devDependencies": {},

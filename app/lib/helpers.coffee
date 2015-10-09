@@ -8,6 +8,7 @@ module.exports =
     menu.push ['/users','Users']
     menu.push ['/gallery','Gallery']
     menu.push ['/api','Api']
+    menu.push ['/db','DB']
     
     menu = menu.map (el) ->
       klass = ''
