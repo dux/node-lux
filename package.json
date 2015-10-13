@@ -11,10 +11,17 @@
     "jaml": "^0.1.0",
     "pg": "^4.4.2",
     "pg-hstore": "^2.3.2",
-    "promise": "^7.0.4"
+    "promise": "^7.0.4",
+    "nodemon": "1.7.x",
+    "sequelize": "3.12.x",
+    "coffee-script": "1.10.0"
+  },
+  "bin": {
+    "nodemon": "node_modules/nodemon"
   },
   "devDependencies": {},
   "scripts": {
+    "server": "nodemon app/index.coffee",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -16,7 +16,7 @@ Written in CoffeeScript
 
 npm install
 
-nodemon app/index.coffee
+npm run server
 
 
 
