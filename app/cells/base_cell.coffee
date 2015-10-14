@@ -2,7 +2,7 @@
 # ovo probat
 
 Sequelize = require('sequelize');
-sequelize = new Sequelize 'stash_buckets_new', 'dux', '!Netlife',
+sequelize = new Sequelize 'stash_buckets_new', 'dux', 'bla',
   host: 'localhost',
   dialect: 'postgres',
   pool:
